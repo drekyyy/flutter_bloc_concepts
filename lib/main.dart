@@ -55,10 +55,44 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            BlocBuilder<CounterCubit, CounterState>(
+              builder: (context, state) {
+                if (state.counterValue < 0) {
+                  return Text(
+                    'LESS THAN ZERO: ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else if (state.counterValue == 0) {
+                  return Text(
+                    'ZERO NOW, CLICK + OR -',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else {
+                  return Text(
+                    'POSITIVE NUMBER: ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+              },
             ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).decrement();
+                    },
+                    tooltip: 'Decrement',
+                    child: const Icon(Icons.remove)),
+                FloatingActionButton(
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).increment();
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add)),
+              ],
+            )
           ],
         ),
       ),
