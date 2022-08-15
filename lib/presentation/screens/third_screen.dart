@@ -15,18 +15,12 @@ class ThirdScreen extends StatefulWidget {
 }
 
 class _ThirdScreenState extends State<ThirdScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    print(widget.color);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.color,
         title: Text(widget.title),
       ),
       body: Center(
@@ -74,6 +68,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
+                    backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
                       BlocProvider.of<CounterCubit>(context).decrement();
@@ -81,6 +76,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     tooltip: 'Decrement',
                     child: const Icon(Icons.remove)),
                 FloatingActionButton(
+                    backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
                       BlocProvider.of<CounterCubit>(context).increment();
@@ -89,20 +85,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     child: const Icon(Icons.add)),
               ],
             ),
-            const SizedBox(height: 25),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(widget.color)),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((_) => BlocProvider.value(
-                            value: BlocProvider.of<CounterCubit>(
-                                context), //provide existing instance of CounterCubit
-                            child: const SecondScreen(
-                                title: 'Second screen', color: Colors.pink),
-                          ))));
-                },
-                child: const Text('Go to second screen'))
           ],
         ),
       ),

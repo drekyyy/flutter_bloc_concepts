@@ -16,6 +16,7 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
+    print(widget.color);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
@@ -84,19 +85,6 @@ class _SecondScreenState extends State<SecondScreen> {
               ],
             ),
             const SizedBox(height: 25),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(widget.color)),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((_) => BlocProvider.value(
-                            value: BlocProvider.of<CounterCubit>(
-                                context), //provide existing instance of CounterCubit
-                            child: const SecondScreen(
-                                title: 'Second screen', color: Colors.pink),
-                          ))));
-                },
-                child: const Text('Go to thirdscreen'))
           ],
         ),
       ),

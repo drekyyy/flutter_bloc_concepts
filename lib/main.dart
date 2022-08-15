@@ -37,8 +37,7 @@ class _MyAppState extends State<MyApp> {
                 const SecondScreen(title: 'Second screen', color: Colors.red)),
         '/third': (context) => BlocProvider.value(
             value: _counterCubit,
-            child:
-                const ThirdScreen(title: 'Third screen', color: Colors.orange))
+            child: const ThirdScreen(title: 'Third screen', color: Colors.pink))
       },
     );
   }

@@ -25,8 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.color);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: widget.color,
         title: Text(widget.title),
       ),
       body: Center(
@@ -74,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
+                    backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
                       BlocProvider.of<CounterCubit>(context).decrement();
@@ -81,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     tooltip: 'Decrement',
                     child: const Icon(Icons.remove)),
                 FloatingActionButton(
+                    backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
                       BlocProvider.of<CounterCubit>(context).increment();
@@ -94,15 +98,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(widget.color)),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: ((_) => BlocProvider.value(
-                            value: BlocProvider.of<CounterCubit>(
-                                context), //provide existing instance of CounterCubit
-                            child: const SecondScreen(
-                                title: 'Second screen', color: Colors.pink),
-                          ))));
+                  Navigator.of(context).pushNamed('/second');
                 },
-                child: const Text('Go to second screen'))
+                child: const Text('Go to second screen')),
+            const SizedBox(height: 25),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(widget.color)),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/third');
+                },
+                child: const Text('Go to third screen'))
           ],
         ),
       ),
