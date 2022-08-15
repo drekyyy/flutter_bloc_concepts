@@ -16,7 +16,6 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.color);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
-import 'package:flutter_bloc_concepts/presentation/screens/second_screen.dart';
+import 'package:flutter_bloc_concepts/logic/cubit/internet_cubit.dart';
+
+import '../../constants/enums.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title, required this.color})
@@ -15,17 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(widget.color);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
@@ -35,6 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(
+              builder: ((context, state) {
+                print('state = ' + state.toString());
+                // print('state = ' );
+                if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.wifi) {
+                  return const Text('wifi');
+                } else if (state is InternetConnected &&
+                    state.connectionType == ConnectionType.mobile) {
+                  return const Text('mobile');
+                } else if (state is InternetDisconnected) {
+                  return const Text('Disconnected');
+                }
+                return const CircularProgressIndicator();
+              }),
+            ),
+
             const Text(
               'You have pushed the button this many times:',
             ),
@@ -71,28 +81,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FloatingActionButton(
-                    backgroundColor: widget.color,
-                    heroTag: null,
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
-                    },
-                    tooltip: 'Decrement',
-                    child: const Icon(Icons.remove)),
-                FloatingActionButton(
-                    backgroundColor: widget.color,
-                    heroTag: null,
-                    onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.add)),
-              ],
-            ),
+            FloatingActionButton(
+                backgroundColor: widget.color,
+                heroTag: null,
+                onPressed: () {
+                  setState(() {});
+                }),
+            // const SizedBox(height: 30),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     FloatingActionButton(
+            //         backgroundColor: widget.color,
+            //         heroTag: null,
+            //         onPressed: () {
+            //           BlocProvider.of<CounterCubit>(context).decrement();
+            //         },
+            //         tooltip: 'Decrement',
+            //         child: const Icon(Icons.remove)),
+            //     FloatingActionButton(
+            //         backgroundColor: widget.color,
+            //         heroTag: null,
+            //         onPressed: () {
+            //           BlocProvider.of<CounterCubit>(context).increment();
+            //         },
+            //         tooltip: 'Increment',
+            //         child: const Icon(Icons.add)),
+            //   ],
+            // ),
             const SizedBox(height: 25),
             ElevatedButton(
                 style: ButtonStyle(

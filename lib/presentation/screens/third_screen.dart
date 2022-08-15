@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
-import 'package:flutter_bloc_concepts/presentation/screens/second_screen.dart';
 
 class ThirdScreen extends StatefulWidget {
   const ThirdScreen({Key? key, required this.title, required this.color})
@@ -17,7 +16,6 @@ class ThirdScreen extends StatefulWidget {
 class _ThirdScreenState extends State<ThirdScreen> {
   @override
   Widget build(BuildContext context) {
-    print(widget.color);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.color,
