@@ -22,12 +22,14 @@ class MyApp extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext myAppContext) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<InternetCubit>(
-            create: (context) => InternetCubit(connectivity: connectivity)),
-        BlocProvider<CounterCubit>(create: (context) => CounterCubit()),
+            create: (internetCubitContext) =>
+                InternetCubit(connectivity: connectivity)),
+        BlocProvider<CounterCubit>(
+            create: (counterCubitContext) => CounterCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

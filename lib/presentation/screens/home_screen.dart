@@ -18,9 +18,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext homeScreenContext) {
     return BlocListener<InternetCubit, InternetState>(
-      listener: (context, state) {
+      listener: (internetCubitListenerContext, state) {
         if (state is InternetConnected &&
             state.connectionType == ConnectionType.wifi) {
           BlocProvider.of<CounterCubit>(context).increment();
@@ -103,19 +103,22 @@ class _HomeScreenState extends State<HomeScreen> {
               //   ],
               // ),
               const SizedBox(height: 25),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(widget.color)),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/second');
-                  },
-                  child: const Text('Go to second screen')),
+              Builder(builder: (builderContext) {
+                return ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(widget.color)),
+                    onPressed: () {
+                      Navigator.of(builderContext).pushNamed('/second');
+                    },
+                    child: const Text('Go to second screen'));
+              }),
               const SizedBox(height: 25),
               ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(widget.color)),
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/third');
+                    Navigator.of(homeScreenContext).pushNamed('/third');
                   },
                   child: const Text('Go to third screen'))
             ],
