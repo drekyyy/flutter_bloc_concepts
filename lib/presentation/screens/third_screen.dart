@@ -69,7 +69,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).decrement();
+                      context.read<CounterCubit>().decrement();
                     },
                     tooltip: 'Decrement',
                     child: const Icon(Icons.remove)),
@@ -77,7 +77,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     backgroundColor: widget.color,
                     heroTag: null,
                     onPressed: () {
-                      BlocProvider.of<CounterCubit>(context).increment();
+                      context.read<CounterCubit>().increment();
                     },
                     tooltip: 'Increment',
                     child: const Icon(Icons.add)),

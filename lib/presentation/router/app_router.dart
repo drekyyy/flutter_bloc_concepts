@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/home_screen.dart';
 import '../screens/second_screen.dart';
+import '../screens/settings_screen.dart';
 import '../screens/third_screen.dart';
 
 class AppRouter {
@@ -19,6 +20,8 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) =>
                 const ThirdScreen(title: 'Third screen', color: Colors.pink));
+      case '/settings':
+        return MaterialPageRoute(builder: (_) => SettingsScreen());
 
       default:
         return null;

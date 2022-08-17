@@ -19,113 +19,125 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext homeScreenContext) {
-    return BlocListener<InternetCubit, InternetState>(
-      listener: (internetCubitListenerContext, state) {
-        if (state is InternetConnected &&
-            state.connectionType == ConnectionType.wifi) {
-          BlocProvider.of<CounterCubit>(context).increment();
-        } else if (state is InternetConnected &&
-            state.connectionType == ConnectionType.mobile) {
-          BlocProvider.of<CounterCubit>(context).decrement();
-        } else if (state is InternetDisconnected) {}
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: widget.color,
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              BlocConsumer<CounterCubit, CounterState>(
-                listener: (context, state) {
-                  if (state.wasIncremented == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Incremented!'),
-                      duration: Duration(milliseconds: 300),
-                    ));
-                  } else if (state.wasIncremented == false) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Decremented!'),
-                      duration: Duration(milliseconds: 300),
-                    ));
-                  }
-                },
-                builder: (context, state) {
-                  if (state.counterValue < 0) {
-                    return Text(
-                      'LESS THAN ZERO: ${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
-                    );
-                  } else if (state.counterValue == 0) {
-                    return Text(
-                      'ZERO NOW, CLICK + OR -',
-                      style: Theme.of(context).textTheme.headline4,
-                    );
-                  } else {
-                    return Text(
-                      'POSITIVE NUMBER: ${state.counterValue}',
-                      style: Theme.of(context).textTheme.headline4,
-                    );
-                  }
-                },
-              ),
-              FloatingActionButton(
-                  backgroundColor: widget.color,
-                  heroTag: null,
-                  onPressed: () {
-                    setState(() {});
-                  }),
-              // const SizedBox(height: 30),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     FloatingActionButton(
-              //         backgroundColor: widget.color,
-              //         heroTag: null,
-              //         onPressed: () {
-              //           BlocProvider.of<CounterCubit>(context).decrement();
-              //         },
-              //         tooltip: 'Decrement',
-              //         child: const Icon(Icons.remove)),
-              //     FloatingActionButton(
-              //         backgroundColor: widget.color,
-              //         heroTag: null,
-              //         onPressed: () {
-              //           BlocProvider.of<CounterCubit>(context).increment();
-              //         },
-              //         tooltip: 'Increment',
-              //         child: const Icon(Icons.add)),
-              //   ],
-              // ),
-              const SizedBox(height: 25),
-              Builder(builder: (builderContext) {
-                return ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(widget.color)),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: widget.color,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            BlocConsumer<CounterCubit, CounterState>(
+              listener: (context, state) {
+                if (state.wasIncremented == true) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Incremented!'),
+                    duration: Duration(milliseconds: 300),
+                  ));
+                } else if (state.wasIncremented == false) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Decremented!'),
+                    duration: Duration(milliseconds: 300),
+                  ));
+                }
+              },
+              builder: (context, state) {
+                if (state.counterValue < 0) {
+                  return Text(
+                    'LESS THAN ZERO: ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else if (state.counterValue == 0) {
+                  return Text(
+                    'ZERO NOW, CLICK + OR -',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                } else {
+                  return Text(
+                    'POSITIVE NUMBER: ${state.counterValue}',
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 30),
+            Builder(builder: (context) {
+              final counterState = context.watch<CounterCubit>().state;
+              final internetState = context.watch<InternetCubit>().state;
+              if (internetState is InternetConnected &&
+                  internetState.connectionType == ConnectionType.mobile) {
+                return Text(
+                    'Counter: ${counterState.counterValue.toString()}, Internet: Mobile',
+                    style: Theme.of(context).textTheme.headline6);
+              }
+              if (internetState is InternetConnected &&
+                  internetState.connectionType == ConnectionType.wifi) {
+                return Text(
+                    'Counter: ${counterState.counterValue.toString()}, Internet: Wifi',
+                    style: Theme.of(context).textTheme.headline6);
+              } else {
+                return Text(
+                    'Counter: ${counterState.counterValue.toString()}, Internet: Disconnected',
+                    style: Theme.of(context).textTheme.headline6);
+              }
+            }),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FloatingActionButton(
+                    backgroundColor: widget.color,
+                    heroTag: null,
                     onPressed: () {
-                      Navigator.of(builderContext).pushNamed('/second');
+                      context.read<CounterCubit>().decrement();
                     },
-                    child: const Text('Go to second screen'));
-              }),
-              const SizedBox(height: 25),
-              ElevatedButton(
+                    tooltip: 'Decrement',
+                    child: const Icon(Icons.remove)),
+                FloatingActionButton(
+                    backgroundColor: widget.color,
+                    heroTag: null,
+                    onPressed: () {
+                      context.read<CounterCubit>().increment();
+                    },
+                    tooltip: 'Increment',
+                    child: const Icon(Icons.add)),
+              ],
+            ),
+            const SizedBox(height: 25),
+            const SizedBox(height: 25),
+            Builder(builder: (builderContext) {
+              return ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(widget.color)),
                   onPressed: () {
-                    Navigator.of(homeScreenContext).pushNamed('/third');
+                    Navigator.of(builderContext).pushNamed('/second');
                   },
-                  child: const Text('Go to third screen'))
-            ],
-          ),
+                  child: const Text('Go to second screen'));
+            }),
+            const SizedBox(height: 25),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(widget.color)),
+                onPressed: () {
+                  Navigator.of(homeScreenContext).pushNamed('/third');
+                },
+                child: const Text('Go to third screen')),
+            const SizedBox(height: 25),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(widget.color)),
+                onPressed: () {
+                  Navigator.of(homeScreenContext).pushNamed('/settings');
+                },
+                child: const Text('Go to settings screen'))
+          ],
         ),
-        // This trailing comma makes auto-formatting nicer for build methods.
       ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
