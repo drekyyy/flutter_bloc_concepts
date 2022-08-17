@@ -14,9 +14,7 @@ class InternetCubit extends Cubit<InternetState> {
   final Connectivity connectivity;
   StreamSubscription? connectivityStreamSubscription;
 
-  InternetCubit({required this.connectivity})
-      : assert(connectivity != null),
-        super(InternetLoading()) {
+  InternetCubit({required this.connectivity}) : super(InternetLoading()) {
     monitorInternetConnection();
   }
   void monitorInternetConnection() {
