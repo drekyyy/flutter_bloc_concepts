@@ -31,4 +31,7 @@ class CounterState extends Equatable {
 
   factory CounterState.fromJson(String source) =>
       CounterState.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  bool get stringify => true;
 }
