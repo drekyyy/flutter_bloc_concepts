@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_concepts/logic/app_bloc_observer.dart';
 
 import 'package:flutter_bloc_concepts/logic/cubit/counter_cubit.dart';
 import 'package:flutter_bloc_concepts/presentation/router/app_router.dart';
@@ -16,13 +17,16 @@ void main() async {
   final storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
+
+  Bloc.observer = AppBlocObserver();
+
   HydratedBlocOverrides.runZoned(
-    () => runApp(MyApp(
-      appRouter: AppRouter(),
-      connectivity: Connectivity(),
-    )),
-    storage: storage,
-  );
+      () => runApp(MyApp(
+            appRouter: AppRouter(),
+            connectivity: Connectivity(),
+          )),
+      storage: storage,
+      blocObserver: AppBlocObserver());
 }
 
 class MyApp extends StatelessWidget {

@@ -24,4 +24,7 @@ class SettingsState extends Equatable {
         emailNotifications,
         appNotifications,
       ];
+
+  @override
+  bool get stringify => true;
 }
